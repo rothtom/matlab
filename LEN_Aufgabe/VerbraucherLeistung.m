@@ -24,7 +24,7 @@ eff = ((Rl ./ Ri) ./ (1 + (Rl ./ Ri))) .* 100
 
 %% Max Effizienz
 [M, index] = max(eff);
-M = round(M, 2)
+M = round(M, 2);
 
 % Textausgabe
 fprintf("Die maximale Leistung beträgt: %.2f W. \n" + ...
@@ -34,16 +34,3 @@ fprintf("Die maximale Leistung beträgt: %.2f W. \n" + ...
 
 return
 end
-
-
-clear all
-close all
-clc
-
-
-U0 = 5;
-Ri = 10;
-Rl = [1:1:10000]';
-
-
-[Pl, eff] = VerbraucherLeistung(Ri, Rl, U0)
