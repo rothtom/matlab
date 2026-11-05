@@ -20,15 +20,15 @@ end
 Pl = (power(U0, 2) ./ power((Ri + Rl), 2)) .* Rl
 
 % Berechnung Wirkungsgrad (vektor)
-eff = ((Rl ./ Ri) ./ (1 + (Rl + Ri))) .* 100
+eff = ((Rl ./ Ri) ./ (1 + (Rl ./ Ri))) .* 100
 
 %% Max Effizienz
 [M, index] = max(eff);
 M = round(M, 2)
 
 % Textausgabe
-fprintf("Die maximale Leistung beträgt: %f W. \n" + ...
-    "Der Wirkungsgrad an diesem Punkt beträgt %i%.\n", ...
+fprintf("Die maximale Leistung beträgt: %.2f W. \n" + ...
+    "Der Wirkungsgrad an diesem Punkt beträgt %.2f%%.\n", ...
     M, eff(index));
 
 
@@ -43,7 +43,7 @@ clc
 
 U0 = 5;
 Ri = 10;
-Rl = [1:1:5]';
+Rl = [1:1:10000]';
 
 
 [Pl, eff] = VerbraucherLeistung(Ri, Rl, U0)
