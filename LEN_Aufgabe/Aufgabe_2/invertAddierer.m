@@ -1,4 +1,4 @@
-function [Ua] = invertAddierer(Ui, R);
+function [Ua] = invertAddierer(Ui, R)
     % Funktion invertAddierer
     % Autor             : Tom Roth
     % Erstellungsdatum  : 6.11.26
@@ -28,7 +28,7 @@ function [Ua] = invertAddierer(Ui, R);
         % für jede Zeile in der Spalte
         for m = 1:size(Ui, 2)
             % Summe der Eingangssignale
-            disp(Ui(n, m));
+            % disp(Ui(n, m));
             Ua(n) = Ua(n) + ((RN / R(m)) * Ui(n, m));
         end
     end
