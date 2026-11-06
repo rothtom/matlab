@@ -1,0 +1,97 @@
+clear all
+close all
+clc
+
+%%
+import invertAddierer.*
+
+% Matrix Ui
+% Spalten entspicht Eingangsspannung
+% Zeilen entspricht einem anderen Zeitpunkt für Ui
+
+
+% Testskript für die Funktion invertAddierer(Ui, R)
+% Autor: Tom Roth
+
+clear;
+clc;
+
+%% Test 1: Berechnung mit mehreren Eingangssignalen
+
+% Eingangsspannungen (3 Eingänge, 4 Zeitpunkte)
+Ui = [1 2 3;
+      2 3 4;
+      3 4 5;
+      4 5 6];
+
+
+% Widerstände (3 Eingangswiderstände + 1 Rückkopplungswiderstand)
+R = [1000; 1000; 1000; 1000];
+
+disp(size(Ui, 2));
+disp(size(R, 1));
+
+% Erwartete Ausgangsspannung berechnen
+Ua_soll = [-6; -9; -12; -15];
+
+% Funktion aufrufen
+Ua_ist = invertAddierer(Ui, R);
+disp(Ua_ist);
+% Ergebnisse vergleichen
+assert(isequal(Ua_ist, Ua_soll), ...
+    'Test 1 fehlgeschlagen: Ausgangsspannung ist falsch!');
+
+disp('Test 1 erfolgreich: Berechnung korrekt.');
+
+%% Test 2: Unterschiedliche Widerstände
+
+Ui = [1 2;
+      3 4];
+
+R = [1000; 2000; 1000];
+
+% Ua = -Rf * (U1/R1 + U2/R2)
+Ua_soll = [-2; -5];
+
+Ua_ist = invertAddierer(Ui, R);
+
+
+assert(isequal(Ua_ist, Ua_soll), ...
+    'Test 2 fehlgeschlagen: Widerstandsverhältnisse falsch!');
+
+disp('Test 2 erfolgreich: Unterschiedliche Widerstände korrekt.');
+
+%% Test 3: Ungültige Dimensionen
+
+Ui = [1 2; 3 4];
+R = [1000; 1000];
+
+try
+    invertAddierer(Ui, R);
+    error('Test 3 fehlgeschlagen: Fehler wurde nicht ausgelöst.');
+catch ME
+    assert(strcmp(ME.message, ...
+        'Die Dimensionen stimmen nicht überein!'), ...
+        'Test 3 fehlgeschlagen: Falsche Fehlermeldung!');
+end
+
+disp('Test 3 erfolgreich: Ungültige Dimensionen erkannt.');
+
+%% Test 4: R ist kein Spaltenvektor
+
+Ui = [1 2; 3 4];
+R = [1000 1000 1000];
+
+try
+    invertAddierer(Ui, R);
+    error('Test 4 fehlgeschlagen: Fehler wurde nicht ausgelöst.');
+catch ME
+    assert(strcmp(ME.message, ...
+        'Die Dimensionen stimmen nicht überein!'), ...
+        'Test 4 fehlgeschlagen: Falsche Fehlermeldung!');
+end
+
+disp('Test 4 erfolgreich: Ungültiger Widerstandsvektor erkannt.');
+
+disp('Alle Tests erfolgreich abgeschlossen!');
+
